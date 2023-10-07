@@ -91,7 +91,7 @@ public class Village {
 			}
 		}
 		
-//		private void name() {
+//		private void name() { test
 //			
 //		}
 		private void afficherMarche() {
