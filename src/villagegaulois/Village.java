@@ -56,12 +56,13 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
 
-	private static class Marche {
+	public static class Marche {
 		private Etal[] etals;
 
 		private Marche(int nbEtals) {
-			etals = new Etal[nbEtals];
+			this.etals = new Etal[nbEtals];
 			for (int i = 0; i < etals.length; i++) {
 				etals[i]=new Etal();
 			}
@@ -73,32 +74,60 @@ public class Village {
 		}
 
 		private int trouverEtalLibre() {
-			int haveEtal = -1;
 			for (int i = 0; i < etals.length; i++) {
 				if (!etals[i].isEtalOccupe()) {
-					haveEtal = i;
+					return i;
 				}
 			}
-			return haveEtal;
+			return -1;
 		}
 
 		private Etal[] trouverEtals(String produit) {
-			Etal[] etalProduit;
-			for (int i = 0; i < etals.length; i++) {
-				if (etals[i]) {
-					etalProduit.append(etals[i]);
+			Etal[] temp = new Etal[etals.length];
+			int len = 0;
+			for (int i=0; i<temp.length; i++) {
+				Etal etal = etals[i];
+				if (etal.isEtalOccupe() && etal.contientProduit(produit)) {
+					temp[i] = etal;
+					len++;
 				}
 			}
+			return temp;
 		}
 		
-//		private void name() { test
-//			
-//		}
-		private void afficherMarche() {
+		private Etal trouverVendeur(Gaulois gaulois) {
 			for (int i = 0; i < etals.length; i++) {
-				System.out.println(etals[i].afficherEtal());
+				Etal etal= etals[i];
+				if (etal.getVendeur()==gaulois) {
+					return etal;
+				}
+			}
+			Etal etalTrouve = null;
+			return etalTrouve;
+		}
+		
+		
+		
+		
+
+		private void afficherMarche() {
+			int nbEtalLibre = 0;
+			for (int i = 0; i < etals.length; i++) {
+				Etal etal= etals[i];
+				if (etal.isEtalOccupe()) {
+					System.out.println(etals[i].afficherEtal());
+				}
+				else nbEtalLibre++;
+			}
+			System.out.println("Il reste " + nbEtalLibre + " étals non utilisés dans le marché.");
+		}
+		//Création d'une fonction pour print des tableau pour des tests
+		public static void printTableau(Etal[] tab) {
+			for (int i = 0; i < tab.length; i++) {
+			    System.out.print(tab[i] + " ");
 			}
 		}
+
 		
 		
 		
@@ -106,11 +135,13 @@ public class Village {
 		public static void main(String[] args) {
 			Marche marche = new Marche(5);
 			Gaulois gaulois = new Gaulois("Gaulois", 6);
-			marche.afficherMarche();
-			marche.utiliserEtal(4, gaulois, "pomme", 3);
-			
-			System.out.println(marche.trouverEtalLibre());
-			System.out.println("\n ------------APRES------------ \n");
+//			marche.afficherMarche();
+			marche.utiliserEtal(3, gaulois, "pomme", 3);
+//			
+//			printTableau((marche.trouverEtals("pomme")));
+//			System.out.println(marche.trouverVendeur(gaulois));
+
+//			System.out.println("\n ------------APRES------------ \n");
 			marche.afficherMarche();
 		}
 
