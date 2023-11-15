@@ -100,12 +100,11 @@ public class Village {
 		private Etal trouverVendeur(Gaulois gaulois) {
 			for (int i = 0; i < etals.length; i++) {
 				Etal etal = etals[i];
-				if (etal.getVendeur() == gaulois) {
+				if (etal.getVendeur().equals(gaulois)) {
 					return etal;
 				}
 			}
-			Etal etalTrouve = null;
-			return etalTrouve;
+			return null;
 		}
 
 		public String afficherMarche() {
@@ -158,7 +157,8 @@ public class Village {
 	}
 
 	public String partirVendeur(Gaulois vendeur) {
-		return marche.trouverVendeur(vendeur).libererEtal();
+		Etal etal = marche.trouverVendeur(vendeur);
+		return etal.libererEtal();
 	}
 
 	public String afficherMarche() {
